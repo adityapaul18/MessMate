@@ -33,7 +33,7 @@
 body {
   max-height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #dashboard-wrapper {
@@ -115,6 +115,34 @@ body {
   grid-column: 2 / span 2;
   margin-top: 10px;
   display:grid ;
+}
+
+
+.staff__cardGrid > #card3 {
+  height: 35%;
+  grid-row: 1 / span 2;
+  grid-column: 2 / span 1;
+}
+
+.staff__cardGrid > #card5 {
+  height: calc(65% - 40px);
+  position: relative;
+  top: calc(35% + 20px);
+  grid-row: 1 / span 2;
+  grid-column: 2 / span 1;
+}
+
+@media(max-width:900px) {
+  .staff__cardGrid > #card5 {
+    top: 0px;
+  }
+
+  .staff__cardGrid > #card3 {
+    height: max-content;
+  }
+  .staff__cardGrid > #card5 {
+    height: max-content;
+  }
 }
 
 .cardgrid__card {

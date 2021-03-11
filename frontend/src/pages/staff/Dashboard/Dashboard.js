@@ -25,6 +25,8 @@ import yellowImage from '../../student/Dashboard/mango1.jpg'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import IconButton from '@material-ui/core/IconButton';
 
+import Announcements from "../../Components/staff/Announcements";
+
 const Dashboard = () => {
   const history=useHistory();
   const token = isAuthenticated() && isAuthenticated().stafftoken;
@@ -169,8 +171,10 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div id='cardgrid'>
+      <div id='cardgrid' class='staff__cardGrid'>
          <div className='cardgrid__card' id='card1'>
+           {/* <Announcements/> */}
+           
           {/* <h2>TOTAL ABSENTEES : {absentees?.breakfast.count}</h2>
           <h3>
             Breakfast:
@@ -186,6 +190,10 @@ const Dashboard = () => {
            {/* <EditModal /> */}
         </div>
         <div className='cardgrid__card' id='card3'>
+          <Announcements/>
+          {/* {feedback.breakfast.rating.ratingAverage}  */}
+        </div>
+        <div className='cardgrid__card' id='card5'>
           <h2>RATINGS AND REVIEWS</h2>
           {/* {feedback.breakfast.rating.ratingAverage}  */}
         </div>
@@ -205,17 +213,22 @@ function applyAccent() {
   document.querySelector(':root').style.setProperty('--accent', accentCodes[accentNum])
   document.getElementById('messImg-wrapper').style.backgroundImage = `url(${backgroundImages[accentNum]})`
   document.getElementById('messImg-wrapper').style.backgroundSize = "cover"
-
+  document.body.style.overflow = 'hidden'
   if(window.innerWidth <= 1300) {
+    document.body.style.overflow = 'auto'
     document.body.style.backgroundImage = `url(${backgroundImages[accentNum]})`
     document.body.style.backgroundSize = "cover"
   }
   document.body.onresize = () => {
     if(window.innerWidth <= 1300) {
+      document.body.style.overflow = 'auto'
       document.body.style.backgroundImage = `url(${backgroundImages[accentNum]})`
       document.body.style.backgroundSize = "cover"
     }
-    else document.body.style.backgroundImage = "none"
+    else {
+      document.body.style.backgroundImage = "none"
+      document.body.style.overflow = 'hidden'
+    }
   }
 }
 

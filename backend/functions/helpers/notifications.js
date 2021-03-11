@@ -1,5 +1,8 @@
 const { admin,db } = require('../admin');
 const firebase=require("firebase");
+const { schedule } = require('firebase-functions/lib/providers/pubsub');
+const axios = require('axios').default;
+axios.defaults.headers.common['Postbacks-Authorization'] = process.env.POSTBACKSAPIKEY;
 
 exports.postFCMToken=(req,res)=>{
 const newFCMToken={
@@ -51,16 +54,22 @@ exports.sendNotification=(req,res)=>{
           var message = {
             notification: {
               title: 'MessMate',
-              body: 'Send us your response!!'
+              body: `${decodeURI(req.query.notifcontent) || 'Please send your response!!'}`,
             },
+            webpush: {
+    headers: {
+      image: 'https://t4.ftcdn.net/jpg/03/75/38/73/360_F_375387396_wSJM4Zm0kIRoG7Ej8rmkXot9gN69H4u4.jpg'
+    }
+  },
             topic: 'Students',
           };
-
+          
           admin.messaging().send(message)
             .then((response) => {
               // Response is a message ID string.
               return res.json(response)
             })
+            .then(scheduleNextNotification)
             .catch((error) => {
               console.log('Error sending message:', error);
             });
@@ -69,4 +78,23 @@ exports.sendNotification=(req,res)=>{
     })
     .catch(err=>console.error(err));
 
+}
+
+async function scheduleNextNotification() {
+  let timestamp = new Date().getTime()
+  timestamp = Math.floor(timestamp/1000) + (24 * 60 * 60)
+  // console.log(timestamp)
+  try {
+    let postbacksRes = await axios.post(
+      'https://api.postbacks.io/v1/requestPostback',   
+      {
+        "url": process.env.PUBLICENDPOINT,
+        "send_at": timestamp,
+        "body_string": "{  }"
+      }
+    )
+
+    // console.log(postbacksRes)
+
+  } catch(err) {console.log(err)}
 }
