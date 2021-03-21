@@ -24,6 +24,7 @@
 * {
   user-select: none;
   -ms-overflow-style: none;
+  scrollbar-width: none;
   padding: 0px;
   margin: 0px;
   border: 0px;
@@ -390,6 +391,10 @@ body {
     filter: brightness(15) saturate(0) contrast(10);
   }
 
+  .cardgrid__card--auth {
+    grid-column: 1/ span 2 !important;
+    height: max-content;
+  }
 }
 
 @keyframes chartIn {
